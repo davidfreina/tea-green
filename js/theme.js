@@ -1,7 +1,7 @@
 // Theme switcher
 let switcher = document.getElementById('switch_theme');
 
-localStorage.getItem('theme') === 'dark' ? darkTheme() : lightTheme();
+localStorage.getItem('theme') === 'light' ? lightTheme() : darkTheme();
 
 switcher.onclick = () => switcher.checked ? darkTheme() : lightTheme();
 
