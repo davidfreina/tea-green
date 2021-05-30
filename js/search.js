@@ -14,11 +14,6 @@ String.prototype.replaceChars = function (character, replacement) {
 
 function search(query) {
 	switch (query.substr(0, 2)) {
-		case '-g':
-			query = query.substr(3);
-			window.open('https://www.google.com/#q=' +
-				query.replaceChars(' ', '%20'), '_blank');
-			break;
 		case '-y':
 			query = query.substr(3);
 			window.open('https://www.youtube.com/results?search_query=' +
