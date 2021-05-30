@@ -1,11 +1,11 @@
 let cityInput = document.getElementById('city');
 let keyInput = document.getElementById('key');
-let key = localStorage.getItem('key');
+let owmApiKey = localStorage.getItem('owmApiKey');
 let weatherInfo = document.querySelector('.weather-card__info');
 let description = document.getElementById('description');
 let icon = document.getElementById('icon');
 
-if (key === null) {
+if (owmApiKey === null) {
 	localStorage.removeItem('city');
 	cityInput.style.display = 'none';
 	keyInput.focus();
@@ -15,15 +15,15 @@ if (key === null) {
 		console.log(':(');
 	} else {
 		let cityName = localStorage.getItem('city');
-		getWeatherInfo(cityName, key);
+		getWeatherInfo(cityName, owmApiKey);
 		cityInput.placeholder = cityName;
 	}
 }
 
 keyInput.addEventListener('keyup', event => {
 	if (event.code === 'Enter') {
-		let key = keyInput.value;
-		localStorage.setItem('key', key);
+		owmApiKey = keyInput.value;
+		localStorage.setItem('owmApiKey', owmApiKey);
 		keyInput.style.display = 'none';
 		cityInput.style.display = '';
 		cityInput.focus();
@@ -32,10 +32,10 @@ keyInput.addEventListener('keyup', event => {
 
 cityInput.addEventListener('keyup', event => {
 	if (event.code === 'Enter') {
-		let key = localStorage.getItem('key');
+		owmApiKey = localStorage.getItem('owmApiKey');
 		let cityName = cityInput.value;
 		localStorage.setItem('city', cityName);
-		getWeatherInfo(cityName, key);
+		getWeatherInfo(cityName, owmApiKey);
 
 		cityInput.placeholder = localStorage.getItem('city');
 		cityInput.value = '';
@@ -43,20 +43,13 @@ cityInput.addEventListener('keyup', event => {
 	}
 });
 
-function getWeatherInfo(cityName, key) {
-	fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}`)
+function getWeatherInfo(cityName, apiKey) {
+	fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`)
 		.then(function (response) {
 			return response.json();
 		})
 		.then(function (data) {
-			fahrenheit = Math.round(((parseFloat(data.main.temp) - 273.15) * 1.8) + 32);
-			celsius = Math.round(parseFloat(data.main.temp) - 273.15);
-			desc = data.weather[0].description;
-			main = data.weather[0].main;
-			id = data.weather[0].id;
-		})
-		.then(function () {
-			drawWeather();
+			drawWeather(data);
 		})
 		.catch(function (error) {
 			cityInput.placeholder = '¯\u005C_(ツ)_/¯';
@@ -65,9 +58,13 @@ function getWeatherInfo(cityName, key) {
 		});
 }
 
-function drawWeather() {
+function drawWeather(data) {
+	let fahrenheit = Math.round(((parseFloat(data.main.temp) - 273.15) * 1.8) + 32);
+	let celsius = Math.round(parseFloat(data.main.temp) - 273.15);
+	let desc = data.weather[0].description;
+	let id = data.weather[0].id;
 	let hour = new Date().getHours();
-	hour >= 17 || hour < 6 ? time = 'night' : time = 'day';
+	let time = hour >= 17 || hour < 6 ? 'night' : 'day';
 
 	weatherInfo.style.display = '';
 	description.innerHTML = `${desc}`;

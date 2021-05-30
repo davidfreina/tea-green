@@ -17,11 +17,6 @@ function lightTheme() {
 	document.body.removeAttribute('theme');
 }
 
-// Automatic theme change depending on the time of day
-/* let hour = new Date().getHours();
-hour >= 17 || hour < 6 ? darkTheme() : lightTheme(); */
-
-
 // Weather card
 let chbWeather = document.getElementById('switch_weather');
 let chbTodo = document.getElementById('switch_todo');

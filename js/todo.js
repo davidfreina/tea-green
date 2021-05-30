@@ -3,7 +3,6 @@ let todoItems = [];
 function renderTodo(todo) {
 	localStorage.setItem('todoItems', JSON.stringify(todoItems));
 
-	const list = document.querySelector('.todo-card__list');
 	const item = document.querySelector(`[data-key='${todo.id}']`);
 
 	if (todo.deleted) {
@@ -78,7 +77,6 @@ list.addEventListener('click', event => {
 	toggleDone(itemKey);
 
 	if (event.target.classList.contains('fas')) {
-		const itemKey = event.target.parentElement.dataset.key;
 		deleteTodo(itemKey);
 	}
 });
