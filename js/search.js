@@ -46,7 +46,7 @@ searchInput.addEventListener('keyup', function (e) {
 		} else {
 			search(this.value);
 			searchInput.value = '';
-			searchInput.placeholder = '-d | -y | -w | -r | -h';
+			searchInput.placeholder = '-y | -w | -r | -h';
 		}
 	}
 });
